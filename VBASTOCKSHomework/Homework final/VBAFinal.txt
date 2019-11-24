@@ -1,0 +1,120 @@
+Option Explicit
+
+
+Sub Testing()
+
+Dim ws As Worksheet
+For Each ws In Worksheets
+
+Dim i As Long
+Dim ticker As String
+Dim yearly_Change As Double
+Dim firstcell As Double
+Dim Percentage_Change As Double
+Dim Percentage_Change1 As Double
+Dim Total_Stock_Volume As Double
+Dim summary As Integer
+summary = 2
+  Dim lastrow As Long
+  Dim minvalue As Variant
+  Dim Maxvalue As Variant
+  lastrow = ws.Range("A" & Rows.Count).End(xlUp).Row
+  
+  Dim GreatestIncrease As Double
+Dim Greatestdecrease As Double
+Dim TotalGreatestVolume As Double
+Dim GreatestI As Double
+Dim GreatestV As Double
+Dim SmallestI As Double
+Dim TickerI As String
+
+GreatestI = 0
+GreatestV = 0
+SmallestI = 0
+  
+    ws.Cells(1, 9) = "Ticker"
+  ws.Cells(1, 10) = "Yearly Change"
+  ws.Cells(1, 11) = "Percent Change"
+  ws.Cells(1, 12) = "Total Stock Volume"
+  ws.Cells(1, 16) = "Ticker"
+  ws.Cells(1, 17) = "Value"
+    ws.Cells(2, 15) = "Greatest % Increase"
+    ws.Cells(3, 15) = "Greatest % Decrease"
+    ws.Cells(4, 15) = "Greatest Total Volume"
+    
+    
+    
+  For i = 2 To lastrow
+
+
+firstcell = ws.Cells(2, 3).Value
+ws.Cells(i, 11).NumberFormat = "0.00%"
+
+
+  If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+  ticker = ws.Cells(i, 1).Value
+   yearly_Change = ws.Cells(i, 6).Value - firstcell
+   Percentage_Change = yearly_Change / firstcell
+   Total_Stock_Volume = ws.Cells(i, 7).Value + Total_Stock_Volume
+  
+    ws.Range("J" & summary).Value = yearly_Change
+    ws.Range("I" & summary).Value = ticker
+    ws.Range("L" & summary).Value = Total_Stock_Volume
+    ws.Range("J" & summary).Value = yearly_Change
+    ws.Range("K" & summary).Value = Percentage_Change
+    summary = summary + 1
+     Total_Stock_Volume = 0
+     Else
+    Total_Stock_Volume = Total_Stock_Volume + ws.Cells(i, 7).Value
+  End If
+   If ws.Cells(i, 10).Value > 0 Then
+     ws.Cells(i, 10).Interior.ColorIndex = 4
+     Else
+    ws.Cells(i, 10).Interior.ColorIndex = 3
+    End If
+    
+   
+  If ws.Cells(i, 12) > GreatestI Then
+  GreatestI = ws.Cells(i, 12)
+  TickerI = ws.Cells(i, 9)
+  ws.Range("Q4").Value = GreatestI
+ ws.Range("P4").Value = TickerI
+  End If
+  
+   If ws.Cells(i, 11) > GreatestV Then
+  GreatestV = ws.Cells(i, 11)
+  TickerI = ws.Cells(i, 9)
+  ws.Range("Q2").NumberFormat = "0.00%"
+  ws.Range("Q2").Value = GreatestV
+  
+ ws.Range("P2").Value = TickerI
+  
+  End If
+  
+    If ws.Cells(i, 11) < SmallestI Then
+ SmallestI = ws.Cells(i, 11)
+  TickerI = ws.Cells(i, 9)
+  ws.Range("Q3").NumberFormat = "0.00%"
+  ws.Range("Q3").Value = SmallestI
+  
+ ws.Range("P3").Value = TickerI
+  
+  End If
+  
+  Next i
+  Next ws
+    
+    End Sub
+    
+    
+    
+ 
+  
+    
+    
+    
+    
+    
+    
+    
+    
